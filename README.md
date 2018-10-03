@@ -1,2 +1,4 @@
 # lazy-triage
 A triage script for windows systems with built-in tools
+
+Inspired by: http://909research.com/find-a-windows-infection-quickly-without-tools/
