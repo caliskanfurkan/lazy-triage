@@ -11,7 +11,6 @@ CMD /u /c schtasks /query /v /fo list > c:\%COMPUTERNAME%_hunt\schtasks.txt
 CMD /u /c netstat -bona > c:\%COMPUTERNAME%_hunt\netstat_bona.txt
 CMD /u /c net users > c:\%COMPUTERNAME%_hunt\users.txt
 CMD /u /c net localgroup administrators > c:\%COMPUTERNAME%_hunt\localadmin.txt
-CMD /u /c doskey /history > c:\%COMPUTERNAME%_hunt\doshistory.txt
 
 rem Custom IOCs to search
 rem wmic datafile where name="C:\\PATH\\FOR\\CUSTOM\\FILE\\TO\\SEARCH" get name,creationdate > c:\%COMPUTERNAME%_hunt\ioc_hit.txt
