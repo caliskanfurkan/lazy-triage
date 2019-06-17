@@ -1,16 +1,40 @@
-rem Lazy Triage v0.2 - by Furkan Caliskan
+rem Lazy Triage v0.3 - by Furkan Caliskan
 
-mkdir c:\%COMPUTERNAME%_hunt
-wmic computersystem get model,name,username,domain /format:csv > c:\%COMPUTERNAME%_hunt\systeminfo.txt
-wmic startup list full /format:csv > c:\%COMPUTERNAME%_hunt\startup.txt
-wmic process get description,processid,parentprocessid,commandline /format:csv > c:\%COMPUTERNAME%_hunt\process.txt
-wmic service get name,processid,startmode,state,status,pathname /format:csv > c:\%COMPUTERNAME%_hunt\services.txt
-wmic job list full /format:csv > c:\%COMPUTERNAME%_hunt\jobs.txt
-ipconfig /displaydns > c:\%COMPUTERNAME%_hunt\dns_cache.txt
-CMD /u /c schtasks /query /v /fo list > c:\%COMPUTERNAME%_hunt\schtasks.txt
-CMD /u /c netstat -bona > c:\%COMPUTERNAME%_hunt\netstat_bona.txt
-CMD /u /c net users > c:\%COMPUTERNAME%_hunt\users.txt
-CMD /u /c net localgroup administrators > c:\%COMPUTERNAME%_hunt\localadmin.txt
+rem Kanitların konulacagi klasoru olustur
+mkdir c:\kanit_%COMPUTERNAME%_%DATE%
 
-rem Custom IOCs to search
-rem wmic datafile where name="C:\\PATH\\FOR\\CUSTOM\\FILE\\TO\\SEARCH" get name,creationdate > c:\%COMPUTERNAME%_hunt\ioc_hit.txt
+rem CSV formatinca PC adi,modeli,aktif user ve domain bilgisini al, systeminfo olarak yaz
+wmic computersystem get model,name,username,domain /format:csv > c:\kanit_%COMPUTERNAME%_%DATE%\systeminfo.txt
+
+rem CSV olarak acilista calisan programlari al ve startup olarak yaz
+wmic startup list full /format:csv > c:\kanit_%COMPUTERNAME%_%DATE%\startup.txt
+
+rem CSV olarak calisan process'leri id, aciklama ve komut satırlarını al ve process.txt olarak yaz
+wmic process get description,processid,parentprocessid,commandline /format:csv > c:\kanit_%COMPUTERNAME%_%DATE%\process.txt
+
+rem CSV olarak calisan servisleri, id, acilis durumu, durumu ve calistigi dizin bilgisin al ve services.txt olarak yaz
+wmic service get name,processid,startmode,state,status,pathname /format:csv > c:\kanit_%COMPUTERNAME%_%DATE%\services.txt
+
+rem CSV olarak zamanlanmis gorevleri al ve jobs.txt yaz
+wmic job list full /format:csv > c:\kanit_%COMPUTERNAME%_%DATE%\jobs.txt
+
+rem Son cozulen DNS isimlerini cache'ten al
+ipconfig /displaydns > c:\kanit_%COMPUTERNAME%_%DATE%\dns_cache.txt
+
+rem Zamanlanmis gorevleri sorgular
+CMD /u /c schtasks /query /v /fo list > c:\kanit_%COMPUTERNAME%_%DATE%\schtasks.txt
+
+rem Network socket durumlarını ve ilişkili process'leri listele
+CMD /u /c netstat -bona > c:\kanit_%COMPUTERNAME%_%DATE%\netstat_bona.txt
+
+rem Kullacıları al
+CMD /u /c net users > c:\kanit_%COMPUTERNAME%_%DATE%\users.txt
+
+rem Local admin grup üyeliklerini al
+CMD /u /c net localgroup administrators > c:\kanit_%COMPUTERNAME%_%DATE%\localadmin.txt
+
+rem Local route tablosunu al
+CMD /u /c route print > c:\kanit_%COMPUTERNAME%_%DATE%\route_table.txt
+
+rem Local arp tablosunu al
+CMD /u /c arp -a > c:\kanit_%COMPUTERNAME%_%DATE%\arp_table.txt
